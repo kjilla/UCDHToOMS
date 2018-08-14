@@ -18,6 +18,7 @@ using StateDictionary = System.Collections.Generic.Dictionary<string, System.Col
 using System.IO.Compression;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Host;
+using System.Net.Http;
 
 namespace UCDDHourly2OMS
 {
@@ -30,19 +31,19 @@ namespace UCDDHourly2OMS
         private static List<string> auditLogProcessingFailures = new List<string>();
         private static string connectionString = "";
         private static string containerName = "";
-        private static string customerId = "";
-        private static string sharedKey = "";
+        private static string workspaceid = "";
+        private static string workspacekey = "";
         private static TraceWriter log;
 
         public static void StartIngestion(string storageAccountConnectionString, string blobContainerName, string omsWorkspaceId, string omsWorkspaceKey, TraceWriter logger)
         {
             connectionString = storageAccountConnectionString;
             containerName = blobContainerName;
-            customerId = omsWorkspaceId;
-            sharedKey = omsWorkspaceKey;
+            workspaceid = omsWorkspaceId;
+            workspacekey = omsWorkspaceKey;
             log = logger;
             
-            var oms = new OMSIngestionApi(customerId, sharedKey, log);
+            var oms = new OMSIngestionApi(workspaceid, workspacekey, log);
 
             if (CloudStorageAccount.TryParse(connectionString, out CloudStorageAccount storageAccount) == false)
             {
@@ -63,6 +64,20 @@ namespace UCDDHourly2OMS
 
             log.Info($"Finished processing files, saving the state file");
             File.WriteAllText(stateFileName, JsonConvert.SerializeObject(statesList));
+        }
+
+        public static void StartIngestion(string omsWorkspaceId, string omsWorkspaceKey, TraceWriter log)
+        {          
+            workspaceid = omsWorkspaceId;
+            workspacekey = omsWorkspaceKey;   
+           
+            log.Info("Sending logs to OMS");
+
+            var oms = new OMSIngestionApi(workspaceid, workspacekey, log);
+            Helper helper = new Helper();
+            HttpClient client = helper.BuildClient();
+            int count = helper.ProcessQuery(oms,client, helper.GetUsageQueryUrl(),log);
+            log.Info($"Finished processing files");
         }
 
         private static string GetLocalStorageFolder()

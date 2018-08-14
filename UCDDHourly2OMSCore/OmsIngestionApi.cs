@@ -68,11 +68,12 @@ namespace UCDDHourly2OMS
             request.ContentType = contentType;
             request.ContentLength = payload.Length;
             request.Headers.Add(HttpRequestHeader.Authorization, signature);
-            request.Headers.Add("Log-Type", "UCDDHourly_CL");
+            request.Headers.Add("Log-Type", "UCDD_Prod_CL");
             request.Headers.Add("x-ms-date", date);
             request.Headers.Add("time-generated-field", "EventTime");
                         
             m_log.Info($"Sending chunk ({payload.Length} bytes) to: {uriAddress}");
+            Console.WriteLine($"Sending chunk ({payload.Length} bytes) to: {uriAddress}");
 
             // send request over the network
             using (Stream dataStream = await m_Retry.ExecuteAsync(() => request.GetRequestStreamAsync()))

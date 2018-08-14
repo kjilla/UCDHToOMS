@@ -9,6 +9,51 @@ namespace UCDDHourly2OMS
     public class UCDDHourly
     {
         [JsonProperty]
+        public string DepartmentName { get; private set; }
+
+        [JsonProperty]
+        public string CostCenter { get; private set; }
+
+        [JsonProperty]
+        public string UnitOfMeasure { get; private set; }
+
+        [JsonProperty]
+        public DateTime Date { get; private set; }
+
+        [JsonProperty]
+        public string AccountOwnerEmail { get; private set; }
+
+        [JsonProperty]
+        public string AccountName { get; private set; }
+
+        [JsonProperty]
+        public string ServiceAdministratorId { get; private set; }
+
+        [JsonProperty]
+        public string SubscriptionName { get; private set; }
+
+        [JsonProperty]
+        public string MeterCategory { get; private set; }
+
+        [JsonProperty]
+        public string MeterSubCategory { get; private set; }
+
+        [JsonProperty]
+        public string MeterRegion { get; private set; }
+
+        [JsonProperty]
+        public string MeterName { get; private set; }
+
+        [JsonProperty]
+        public string InstanceId { get; private set; }
+
+        [JsonProperty]
+        public string ServiceInfo1 { get; private set; }
+
+        [JsonProperty]
+        public string ServiceInfo2 { get; private set; }
+
+        [JsonProperty]
         public long AccountId { get; private set; }
 
         [JsonProperty]
@@ -33,7 +78,7 @@ namespace UCDDHourly2OMS
         public long EnrollmentId { get; private set; }
 
         [JsonProperty]
-        public decimal ExtendedCost { get; private set; }
+        public decimal Cost { get; private set; }
 
         [JsonProperty]
         public string InstanceName { get; private set; }
@@ -42,13 +87,16 @@ namespace UCDDHourly2OMS
         public bool IsMonetaryCommitmentService { get; private set; }
 
         [JsonProperty]
-        public long MeterId { get; private set; }
+        public string MeterId { get; private set; }
 
         [JsonProperty]
         public long PartnerId { get; private set; }
 
         [JsonProperty]
         public long ProductId { get; private set; }
+
+        [JsonProperty]
+        public string Product { get; private set; }
 
         [JsonProperty]
         public string ResourceGroup { get; private set; }
@@ -61,12 +109,6 @@ namespace UCDDHourly2OMS
 
         [JsonProperty]
         public decimal ResourceRate { get; private set; }
-
-        [JsonProperty]
-        public string ServiceInfo1 { get; private set; }
-
-        [JsonProperty]
-        public string ServiceInfo2 { get; private set; }
 
         [JsonProperty]
         public string StoreServiceIdentifier { get; private set; }
@@ -87,16 +129,10 @@ namespace UCDDHourly2OMS
         public string SourceLocation { get; private set; }
 
         [JsonProperty]
-        public DateTime BillingMonthdt { get; private set; }
-
-        [JsonProperty]
-        public DateTime UsageDatedt { get; private set; }
-
-        [JsonProperty]
         public string EnrollmentNumber { get; private set; }
 
         [JsonProperty]
-        public string MOCPSubscriptionGuid { get; private set; }
+        public string SubscriptionGuid { get; private set; }
 
         [JsonProperty]
         public string ConsumedService { get; private set; }
@@ -105,16 +141,7 @@ namespace UCDDHourly2OMS
         public string ResourceLocation { get; private set; }
 
         [JsonProperty]
-        public string TagsDy { get; private set; }
-
-        [JsonProperty]
         public long Version { get; private set; }
-
-        [JsonProperty]
-        public string DropByTag { get; private set; }
-
-        [JsonProperty]
-        public long SourceLineNumber { get; private set; }
 
         [JsonProperty]
         public decimal ConsumedQuantityScaled { get; private set; }
@@ -129,9 +156,6 @@ namespace UCDDHourly2OMS
         public string OfferId { get; private set; }
 
         [JsonProperty]
-        public string ResourceLocationNormalized { get; private set; }
-
-        [JsonProperty]
         public long HourId { get; private set; }
 
         [JsonProperty]
@@ -139,7 +163,7 @@ namespace UCDDHourly2OMS
         {
             get
             {
-                return this.dateCreated.HasValue ? this.dateCreated.Value : DateTime.Now;
+                return dateCreated.HasValue ? this.dateCreated.Value : DateTime.Now;
             }
 
             set { this.dateCreated = DateTime.Now; }

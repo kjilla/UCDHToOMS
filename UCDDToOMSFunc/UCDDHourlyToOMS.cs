@@ -13,17 +13,16 @@ namespace UCDDToOMSFunc
         static List<string> auditLogProcessingFailures = new List<string>();
 
         [FunctionName("UCDDHourlyToOMS")]
-        public static void Run([TimerTrigger("0 0 */1 * * *")]TimerInfo myTimer, TraceWriter log)
+        //public static void Run([TimerTrigger("0 0 */1 * * *")]TimerInfo myTimer, TraceWriter log)
+        public static void Run([TimerTrigger("0 */5 * * * *")]TimerInfo myTimer, TraceWriter log)
         {
             log.Info($"C# Timer trigger function executed at: {DateTime.Now}");            
             try
-            {
-                string connectionString = CryptoHelper.GetKeyVaultSecret("ucddhourlyconnstring");
-                string containerName = CryptoHelper.GetKeyVaultSecret("ucddhourlyblobcontainername");
+            {               
                 string customerId = CryptoHelper.GetKeyVaultSecret("omsworkspaceid");
                 string sharedKey = CryptoHelper.GetKeyVaultSecret("omsworkspacekey");              
-                log.Info($"Processing started at {DateTime.UtcNow.ToString()}");
-                OMSIngestionProcessor.StartIngestion(connectionString, containerName, customerId, sharedKey, log);
+                log.Info($"Processing started at {DateTime.UtcNow.ToString()}");                
+                OMSIngestionProcessor.StartIngestion(customerId, sharedKey, log);
                 log.Info($"Finished processing at  {DateTime.UtcNow.ToString()}");               
             }
             catch (Exception ex)
